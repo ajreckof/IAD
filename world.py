@@ -3,33 +3,11 @@
 # This code is used to teach Developmental AI.
 # from turtlesim_enacter import TurtleSimEnacter # requires ROS
 from turtlepy_enacter import TurtlePyEnacter
-from Agent5 import Agent5
-from OsoyooCarEnacter import OsoyooCarEnacter
+from agent1 import Agent1
+from agent2 import Agent2
 ROBOT_IP = "192.168.4.1"
 
-
-class Agent:
-    def __init__(self, valence_table):
-        """ Creating our agent """
-        self.valence_table = valence_table
-        self._action = None
-        self.anticipated_outcome = None
-
-    def action(self, outcome):
-        """ tracing the previous cycle """
-        if self._action is not None:
-            print("Action: " + str(self._action) +
-                  ", Anticipation: " + str(self.anticipated_outcome) +
-                  ", Outcome: " + str(outcome) +
-                  ", Satisfaction: (anticipation: " + str(self.anticipated_outcome == outcome) +
-                  ", valence: " + str(self.valence_table[self._action][outcome]) + ")")
-
-        """ Computing the next action to enact """
-        # TODO: Implement the agent's decision mechanism
-        self._action = 0
-        # TODO: Implement the agent's anticipation mechanism
-        self.anticipated_outcome = 0
-        return self._action
+    
 
 
 class Environment1:
@@ -66,14 +44,14 @@ class Environment3:
 
 
 # TODO Define the valance of interactions (action, outcome)
-valences = [[-1, 1], [-1, 1]]
-# valences = [[1, -1], [1, -1]]
+# valences = [[-1, 1], [-1, 1]]
+valences = [[1, -1], [1, -1]]
 # TODO Choose an agent
-a = Agent(valences)
+a = Agent2(valences)
 # a = Agent5(valences)
 # TODO Choose an environment
-e = Environment1()
-# e = Environment2()
+# e = Environment1()
+e = Environment2()
 # e = Environment3()
 # e = TurtleSimEnacter()
 # e = TurtlePyEnacter()
