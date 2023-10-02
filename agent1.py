@@ -5,7 +5,7 @@ class Agent1:
         self._action = None
         self.anticipated_outcome = None
         self._increment = 0
-        self.predict_outcome = [[0,0],[0,0]]
+        self.predict_outcome = [0,0]
 
     def action(self, outcome):
         """ tracing the previous cycle """
@@ -20,7 +20,7 @@ class Agent1:
             else :
                 self._increment = 0
             """ Updating values based on previous outcome """
-            self.predict_outcome[self._action][outcome] += 1
+            self.predict_outcome[self._action] = outcome
         else :
             self._action = 0
         """ Computing the next action to enact """
@@ -30,5 +30,5 @@ class Agent1:
             self._increment = 0
 
         # TODO: Implement the agent's anticipation mechanism
-        self.anticipated_outcome = 0 if self.predict_outcome[self._action][0] > self.predict_outcome[self._action][1] else 1
+        self.anticipated_outcome = self.predict_outcome[self._action]
         return self._action

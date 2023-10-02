@@ -5,6 +5,8 @@
 from turtlepy_enacter import TurtlePyEnacter
 from agent1 import Agent1
 from agent2 import Agent2
+from agent3 import Agent3
+import time
 ROBOT_IP = "192.168.4.1"
 
     
@@ -45,21 +47,27 @@ class Environment3:
 
 # TODO Define the valance of interactions (action, outcome)
 # valences = [[-1, 1], [-1, 1]]
-valences = [[1, -1], [1, -1]]
+# valences = [[1, -1], [1, -1]]
+valences = [
+    [1,-1],
+    [-1,1],
+    [-1,1]
+]
 # TODO Choose an agent
-a = Agent2(valences)
+a = Agent3(valences)
 # a = Agent5(valences)
 # TODO Choose an environment
 # e = Environment1()
-e = Environment2()
+# e = Environment2()
 # e = Environment3()
 # e = TurtleSimEnacter()
-# e = TurtlePyEnacter()
+e = TurtlePyEnacter()
 # e = OsoyooCarEnacter(ROBOT_IP)
 
 if __name__ == '__main__':
     """ The main loop controlling the interaction of the agent with the environment """
     outcome = 0
-    for i in range(20):
+    for i in range(100):
         action = a.action(outcome)
         outcome = e.outcome(action)
+    input("cliquer pour continuer : ")
