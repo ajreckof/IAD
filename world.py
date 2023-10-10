@@ -6,6 +6,7 @@ from turtlepy_enacter import TurtlePyEnacter
 from agent1 import Agent1
 from agent2 import Agent2
 from agent3 import Agent3
+from agent4 import Agent4
 import time
 ROBOT_IP = "192.168.4.1"
 
@@ -46,15 +47,15 @@ class Environment3:
 
 
 # TODO Define the valance of interactions (action, outcome)
-# valences = [[-1, 1], [-1, 1]]
+valences = [[-1, 1], [-1, 1]]
 # valences = [[1, -1], [1, -1]]
-valences = [
-    [1,-1],
-    [-1,1],
-    [-1,1]
-]
+# valences = [
+#     [1,-1],
+#     [-1,1],
+#     [-1,1]
+# ]
 # TODO Choose an agent
-a = Agent3(valences)
+a = Agent4(valences)
 # a = Agent5(valences)
 # TODO Choose an environment
 # e = Environment1()

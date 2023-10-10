@@ -12,6 +12,10 @@ class Interaction:
         """ Print interaction in the form <action><outcome>(<valence>) """
         return str(self.action) + str(self.outcome) + "(" + str(self.valence) + ")"
 
+    def __repr__(self):
+        """ Print interaction in the form <action><outcome>(<valence>) """
+        return f"(a: {self.action} o:{self.outcome} v:{self.valence})"
+
     def __hash__(self):
         """ The hash is necessary to use interactions as keys in a dictionary """
         return self.action * 10 + self.outcome
