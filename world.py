@@ -47,13 +47,13 @@ class Environment3:
 
 
 # TODO Define the valance of interactions (action, outcome)
-valences = [[-1, 1], [-1, 1]]
+# valences = [[-1, 1], [-1, 1]]
 # valences = [[1, -1], [1, -1]]
-# valences = [
-#     [1,-1],
-#     [-1,1],
-#     [-1,1]
-# ]
+valences = [
+    [2,-2],
+    [0,-1],
+    [0,0]
+]
 # TODO Choose an agent
 a = Agent4(valences)
 # a = Agent5(valences)
@@ -62,13 +62,19 @@ a = Agent4(valences)
 # e = Environment2()
 # e = Environment3()
 # e = TurtleSimEnacter()
-e = TurtlePyEnacter()
+e = TurtlePyEnacter(2)
 # e = OsoyooCarEnacter(ROBOT_IP)
+n = 1000
 
 if __name__ == '__main__':
     """ The main loop controlling the interaction of the agent with the environment """
     outcome = 0
-    for i in range(100):
+    try :
+        n //= e.step
+    except : 
+        pass
+
+    for i in range(n):
         action = a.action(outcome)
         outcome = e.outcome(action)
     input("cliquer pour continuer : ")

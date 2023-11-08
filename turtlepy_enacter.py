@@ -13,7 +13,7 @@ SCREEN_HEIGHT = 300
 
 class TurtlePyEnacter:
 
-    def __init__(self):
+    def __init__(self, step):
         """ Creating the Turtle window """
         turtle.bgcolor("gray")
         self.screen = turtle.getscreen()
@@ -36,10 +36,11 @@ class TurtlePyEnacter:
         self.turtle = turtle.Turtle("turtle")
         self.turtle.color("green")
         self.turtle.speed(1)
+        self.step = step
 
     def outcome(self, action):
         """ Enacting an action and returning the outcome """
-        for i in range(10):
+        for i in range(self.step):
             _outcome = 0
             if action == 0:
                 # move forward
