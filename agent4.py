@@ -2,20 +2,24 @@ import numpy as np
 import random
 from resources import Interaction
 from cmath import inf
-patience = 3
 
 class Agent4:
-    def __init__(self, valence_table):
-        self.nb_action = len(valence_table)
+    def __init__(self, valence_table, patience = 10):
+        self.patience = patience
         """ Creating our agent """
+        self.valence_table = valence_table
+        self.reset_agent()
+
+    def reset_agent(self):
+        Interaction.reset_interactions()
+        self.need_novelty = False
         self.inter_prec=None
         self.interaction_memory = {}
-        self.valence_table = valence_table
         self._action = None
         self.anticipated_outcome = None
         self._increment = 0
-        self.predict_outcome = [0 for i in range(self.nb_action)]
-        self.estimated_reward = [0 for i in range(self.nb_action)]
+        self.predict_outcome = [0 for i in range(len(self.valence_table))]
+        self.estimated_reward = [0 for i in range(len(self.valence_table))]
 
     def action(self, outcome):
         """ tracing the previous cycle """
@@ -29,6 +33,7 @@ class Agent4:
                 self._increment += 1
             else :
                 self._increment = 0
+                self.need_novelty = False
             """ Updating values based on previous outcome """
             self.predict_outcome[self._action] = outcome
             self.estimated_reward[self._action] = self.valence_table[self._action][outcome]
@@ -47,19 +52,36 @@ class Agent4:
 
 
         """ Computing the next action to enact """
-        # TODO: Implement the agent's decision mechanism
         self.anticipated_outcome = 0
-        if self._increment > patience and self.inter_prec in self.interaction_memory:
-            action_tested = [False for i in range(self.nb_action)]
-            for inter in self.interaction_memory[self.inter_prec]:
-                action_tested[inter.action] = True
+        if not self.inter_prec in self.interaction_memory:
+            return self._action
+        
+        if self._increment > self.patience:
+            action_tested = [0] * len(self.valence_table)
+            for inter, occ in self.interaction_memory[self.inter_prec].items():
+                action_tested[inter.action] += occ
 
             # testez quelque chose de nouveau si c'est possible sinon remettre l’essai à une prochaine fois
-            if False in action_tested:
-                self._action = action_tested.index(False)
-                self._increment = 0
-                return
-        if self.inter_prec in self.interaction_memory:
+            
+            if 0 not in action_tested:
+                self.need_novelty = True
+            
+            print(action_tested)
+            self._increment = 0
+            self._action = action_tested.index(min(action_tested))
+        else :
+            if self.need_novelty:
+                action_tested = [False for i in range(len(self.valence_table))]
+                for inter in self.interaction_memory[self.inter_prec]:
+                    action_tested[inter.action] = True
+
+                # testez quelque chose de nouveau si c'est possible sinon remettre l’essai à une prochaine fois
+                if False in action_tested:
+                    self.need_novelty = False
+                    self._increment = 0
+                    self._action = action_tested.index(False)
+                    return self._action
+            
             possible_interactions = self.interaction_memory[self.inter_prec]
             sum_valence_per_action = {}
             count_per_action = {}
@@ -70,16 +92,14 @@ class Agent4:
                 sum_valence_per_action[inter.action] += possible_interactions[inter] * inter.valence
                 count_per_action[inter.action] += possible_interactions[inter]
             
-            print(self.inter_prec)
             maxValence = -inf
             maxAction = None
-            print(sum_valence_per_action, count_per_action)
             for action in sum_valence_per_action :
                 valence = sum_valence_per_action[action]/count_per_action[action]
                 if valence > maxValence :
                     maxValence = valence
                     maxAction = action
-            print(maxAction)
+
             maxOccurence = -inf
             maxOutcome = None
 
@@ -90,9 +110,6 @@ class Agent4:
                 
             self._action = maxAction
             self.anticipated_outcome = maxOutcome
-        else : 
-            self._action = 0 
-
     
         return self._action
 

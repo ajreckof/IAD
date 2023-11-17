@@ -15,6 +15,13 @@ class TurtlePyEnacter:
 
     def __init__(self, step):
         """ Creating the Turtle window """
+        # added to make sure we don't keep previous turtles and traces in the background
+        # In case the window was closed it will crash but will relaunch it for afterwards and prevent further crashes
+        try :
+            turtle.clearscreen()
+        except :
+            print("try clearing but couldn't find screen")
+            pass
         turtle.bgcolor("gray")
         self.screen = turtle.getscreen()
         self.screen.setup(SCREEN_WIDTH + 60, SCREEN_HEIGHT + 60)
@@ -78,6 +85,9 @@ class TurtlePyEnacter:
                 self.turtle.color("red")
 
         return _outcome
+
+    def get_canvas(self):
+        return turtle._Screen._canvas
 
 
 if __name__ == '__main__':

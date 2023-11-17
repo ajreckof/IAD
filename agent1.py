@@ -2,6 +2,9 @@ class Agent1:
     def __init__(self, valence_table):
         """ Creating our agent """
         self.valence_table = valence_table
+        self.reset_agent()
+    
+    def reset_agent(self):
         self._action = None
         self.anticipated_outcome = None
         self._increment = 0

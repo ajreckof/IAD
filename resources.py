@@ -26,6 +26,10 @@ class Interaction:
             return (self.action == other.action) and (self.outcome == other.outcome)
         else:
             return False
+    
+    @classmethod
+    def reset_interactions(cls):
+        cls.interaction_list = []
 
     @classmethod
     def create_or_retrieve(cls, action, outcome, valence=0):

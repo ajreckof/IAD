@@ -2,11 +2,15 @@ class Agent2:
     def __init__(self, valence_table):
         """ Creating our agent """
         self.valence_table = valence_table
-        self._action = None
+        self.reset_agent()
+
+    def reset_agent(self):
         self.anticipated_outcome = None
+        self._action = None
         self._increment = 0
-        self.predict_outcome = [0,0]
+
         self.total_reward = [0,0]
+        self.predict_outcome = [0,0]
         self.nb_action = [0,0]
 
     def action(self, outcome):
@@ -25,21 +29,26 @@ class Agent2:
             self.predict_outcome[self._action] = outcome
             self.total_reward[self._action] += self.valence_table[self._action][outcome]
             self.nb_action[self._action] += 1
+
+            #this is to avoid keeping in mind outcomes that are way too far in the past
+            self.total_reward[self._action] *= .9
+            self.nb_action[self._action] *= .9
         else :
             self._action = 0
-        
 
 
         """ Computing the next action to enact """
-        # TODO: Implement the agent's decision mechanism
         if self._increment>5:
+            # Lorsqu'on s'ennuie, on choisit l'autre action
             self._action = 1 - self._action
             self._increment = 0
         else :
-            average_reward = [self.total_reward[i] / (self.nb_action[i] + 1) for i in range(2)]
-            if average_reward[self._action] < max(average_reward):
+            # Lorsqu'on ne s'ennuie pas on choisit la meilleure action
+            average_reward = [total_reward / (max(nb_action,1)) for total_reward, nb_action in zip(self.total_reward,self.nb_action)]
+            if average_reward[self._action] < average_reward[1 -self._action]:
                 self._action = 1 - self._action
-        # TODO: Implement the agent's anticipation mechanism
+
+
         self.anticipated_outcome = self.predict_outcome[self._action]
         return self._action
 

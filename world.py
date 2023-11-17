@@ -2,16 +2,7 @@
 # Olivier Georgeon, 2021.
 # This code is used to teach Developmental AI.
 # from turtlesim_enacter import TurtleSimEnacter # requires ROS
-from turtlepy_enacter import TurtlePyEnacter
-from agent1 import Agent1
-from agent2 import Agent2
-from agent3 import Agent3
-from agent4 import Agent4
-import time
 ROBOT_IP = "192.168.4.1"
-
-    
-
 
 class Environment1:
     """ In Environment 1, action 0 yields outcome 0, action 1 yields outcome 1 """
@@ -45,36 +36,3 @@ class Environment3:
         self.previous_action = action
         return _outcome
 
-
-# TODO Define the valance of interactions (action, outcome)
-# valences = [[-1, 1], [-1, 1]]
-# valences = [[1, -1], [1, -1]]
-valences = [
-    [2,-2],
-    [0,-1],
-    [0,0]
-]
-# TODO Choose an agent
-a = Agent4(valences)
-# a = Agent5(valences)
-# TODO Choose an environment
-# e = Environment1()
-# e = Environment2()
-# e = Environment3()
-# e = TurtleSimEnacter()
-e = TurtlePyEnacter(2)
-# e = OsoyooCarEnacter(ROBOT_IP)
-n = 1000
-
-if __name__ == '__main__':
-    """ The main loop controlling the interaction of the agent with the environment """
-    outcome = 0
-    try :
-        n //= e.step
-    except : 
-        pass
-
-    for i in range(n):
-        action = a.action(outcome)
-        outcome = e.outcome(action)
-    input("cliquer pour continuer : ")
